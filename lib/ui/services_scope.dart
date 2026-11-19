@@ -26,12 +26,18 @@ class ServicesScope extends InheritedWidget {
   }
 
   /// Shareable link for [drop], or null when no web URL is known.
-  /// Private drops link with `?code=`, public ones with `?p=<token>`.
+  ///
+  /// Links go to `/s` (served by `web/share.html`), which gives messengers a
+  /// "Someone sent you a burner" preview and then forwards to the app.
+  /// Private drops use `?code=`, public ones `?p=<token>`.
   String? linkFor(Drop drop) {
     final query = {drop.isPublic ? 'p' : 'code': drop.code};
     final base = config.webUrl.trim();
     if (base.isNotEmpty) {
-      return Uri.parse(base).replace(queryParameters: query).toString();
+      final uri = Uri.parse(base);
+      return uri
+          .replace(path: _sharePath(uri.path), queryParameters: query)
+          .toString();
     }
     final here = Uri.base;
     if (here.scheme == 'http' || here.scheme == 'https') {
@@ -39,11 +45,21 @@ class ServicesScope extends InheritedWidget {
         scheme: here.scheme,
         host: here.host,
         port: here.hasPort ? here.port : null,
-        path: here.path,
+        path: _sharePath(here.path),
         queryParameters: query,
       ).toString();
     }
     return null;
+  }
+
+  /// `/` -> `/s`, `/app/` -> `/app/s`, `/s` -> `/s` (already on the share page).
+  static String _sharePath(String basePath) {
+    var dir = basePath;
+    if (dir.endsWith('/s') || dir.endsWith('/share.html')) {
+      dir = dir.substring(0, dir.lastIndexOf('/') + 1);
+    }
+    if (!dir.endsWith('/')) dir = '$dir/';
+    return '${dir}s';
   }
 
   @override
