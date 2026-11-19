@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--
+    Landing page for share links: /s?code=ABC234 and /s?p=<token>
+    (firebase.json rewrites /s here).
+
+    Link-preview bots (Telegram, WhatsApp, Slack…) read these meta tags without
+    running JavaScript, so shared links show "Someone sent you a burner"
+    instead of the app's generic description. Browsers run the script below
+    and go straight to the app with the same query string. Nothing is opened
+    or burned here.
+  -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Someone sent you a burner</title>
+  <meta name="description" content="Open the link to view and download it. Burner drops expire, and some can only be opened once.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Burner">
+  <meta property="og:title" content="Someone sent you a burner">
+  <meta property="og:description" content="Open the link to view and download it. Burner drops expire, and some can only be opened once.">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Someone sent you a burner">
+  <meta name="twitter:description" content="Open the link to view and download it. Burner drops expire, and some can only be opened once.">
+
+  <meta name="theme-color" content="#201A17">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+    html, body { margin: 0; height: 100%; background: #201A17; }
+  </style>
+  <script>
+    // Same query (code / p), app root. Relative so it also works under a sub-path.
+    location.replace('./' + location.search);
+  </script>
+</head>
+<body>
+  <noscript>
+    <p style="color:#fff;font-family:sans-serif;text-align:center;margin-top:40vh">
+      Burner needs JavaScript. <a href="./" style="color:#FFB04D">Open Burner</a>
+    </p>
+  </noscript>
+</body>
+</html>

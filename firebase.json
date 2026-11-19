@@ -15,6 +15,10 @@
     ],
     "rewrites": [
       {
+        "source": "/s",
+        "destination": "/share.html"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
