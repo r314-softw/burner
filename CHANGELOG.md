@@ -6,6 +6,11 @@ and versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- Share links now use `/s?code=…` and `/s?p=…`. In messengers they preview as
+  "Someone sent you a burner" instead of the app's generic description. Older
+  links without `/s` still work.
+
 ## [1.1.0] - 2026-11-19
 
 ### Added

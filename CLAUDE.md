@@ -171,6 +171,13 @@ is the template. Without it the app shows `SetupRequiredApp`.
 
 ## Conventions and gotchas
 
+- Share links point to `/s` (`firebase.json` rewrites it to
+  `web/share.html`). That page only carries the link-preview meta tags ("Someone
+  sent you a burner") and forwards to `./` with the same query. Preview bots
+  don't run JS, and Hosting can't vary `index.html` by query string, so the
+  separate path is the backend-free way to get a custom preview. Don't add a
+  `/s/` rewrite: `./` would loop.
+
 - Deploy storage rules interactively. `storage.rules` uses `firestore.get`,
   which needs `roles/firebaserules.firestoreServiceAgent` on the Storage
   service agent. The CLI only offers the grant in an interactive run and only
